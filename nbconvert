@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# convert jupyter notebooks into executable python and adds hashbang
+
+TEMPLATE=`mktemp`
+
+echo -e '#!/usr/bin/env ipython\n{% extends "python.tpl"%}' > $TEMPLATE
+
+#if [[ "$VIRTUAL_ENV" != "" ]]
+#then
+  if [[ $1 != "" ]];
+  then
+    filename=$(basename -- $1)
+    extension="${filename##*.}"
+    filename="${filename%.*}"
+
+    jupyter nbconvert --to python $1 --stdout --template=$TEMPLATE > $filename.py
+
+  else
+    echo "converts ipython notebooks directly to executable python .py scripts"
+    echo "error: no .ipynb specified"
+    echo "usage: $ nbconvert my_notebook.ipynb"
+  fi
+#else
+#  echo "this script must be run with the python virtual environment with jupyter avialable"
+#  echo "$ source ~/Virtualenvs/python2/bin/activate"
+#  exit
+#fi
