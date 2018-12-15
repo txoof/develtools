@@ -1,5 +1,8 @@
 #!/bin/bash
+# created by Aaron Ciuffo https://github.com/txoof
+# version 0 15 December 2018
 # Prepare a project to work with pipenv and jupyter
+# Thanks to Luis Meraz: https://stackoverflow.com/users/8017204/luis-meraz
 #https://stackoverflow.com/questions/47295871/is-there-a-way-to-use-pipenv-with-jupyter-notebook
 add_kernel(){
   pipenv install ipykernel
@@ -18,15 +21,13 @@ add_kernel(){
 clean_kernel() {
   venvDir=`pipenv --venv`
   if [ $? -ne 0 ]; then
-    
-    # echo no virtual environtment found to clean - exiting
+    # throw error from pipenv and exit 
     exit 0
   else
     venvName=`basename $venvDir`
   fi
 
-
-  echo removing kernel and virutal environment: $venvName
+  echo removing kernelspec and virutal environment: $venvName
   jupyter kernelspec remove `echo $venvName | tr '[:upper:]' '[:lower:]'`
   if [ $? -ne 0 ]; then
     echo failed to clean up jupyter kernel
@@ -35,7 +36,6 @@ clean_kernel() {
   fi
 
   pipenv --rm 
-
   if [ $? -ne 0 ]; then
     echo failed to remove pip virtual environment - exiting
     echo try to manually remove using:
@@ -65,6 +65,3 @@ case "$1" in
       echo    -h            this help
       ;;
 esac
-
-
-
