@@ -1,7 +1,11 @@
 #!/bin/bash
 # created by Aaron Ciuffo https://github.com/txoof
 # version 0 15 December 2018
-# Prepare a project to work with pipenv and jupyter
+
+# Prepare a project to work with pipenv and jupyter by creating a pipvenv and adding
+# the kernelspec to jupyter's list of available kernels 
+# additional modules can be added by running pipenv install <module>
+
 # Thanks to Luis Meraz: https://stackoverflow.com/users/8017204/luis-meraz
 #https://stackoverflow.com/questions/47295871/is-there-a-way-to-use-pipenv-with-jupyter-notebook
 add_kernel(){
