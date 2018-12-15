@@ -2,7 +2,7 @@
 # Prepare a project to work with pipenv and jupyter
 #https://stackoverflow.com/questions/47295871/is-there-a-way-to-use-pipenv-with-jupyter-notebook
 add_kernel(){
-  #pipenv install ipykernel
+  pipenv install ipykernel
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
   pipenv run python -m ipykernel install --user --name="${projectName}"
@@ -18,10 +18,29 @@ add_kernel(){
 clean_kernel() {
   venvDir=`pipenv --venv`
   if [ $? -ne 0 ]; then
-    echo no virtual environtment found to clean - exiting
+    
+    # echo no virtual environtment found to clean - exiting
     exit 0
+  else
+    venvName=`basename $venvDir`
   fi
-  echo $venvDir
+
+
+  echo removing kernel and virutal environment: $venvName
+  jupyter kernelspec remove `echo $venvName | tr '[:upper:]' '[:lower:]'`
+  if [ $? -ne 0 ]; then
+    echo failed to clean up jupyter kernel
+    echo try to manually remove using:
+    echo jupyter kernelspec remove $venvName
+  fi
+
+  pipenv --rm 
+
+  if [ $? -ne 0 ]; then
+    echo failed to remove pip virtual environment - exiting
+    echo try to manually remove using:
+    echo pipenv -rm
+  fi
 }
 
 pipenv -h > /dev/null 2>&1
