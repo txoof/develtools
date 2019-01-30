@@ -9,7 +9,9 @@
 # Thanks to Luis Meraz: https://stackoverflow.com/users/8017204/luis-meraz
 #https://stackoverflow.com/questions/47295871/is-there-a-way-to-use-pipenv-with-jupyter-notebook
 add_kernel(){
-  pipenv install ipykernel
+  pyVersion=$1
+  echo "PYTHON VERSION: $pyVersion"
+  pipenv "${pyVersion}" install ipykernel
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
   pipenv run python -m ipykernel install --user --name="${projectName}"
@@ -57,15 +59,18 @@ else
 fi
 
 case "$1" in
-  -a|--add) add_kernel
+  -2) add_kernel "--two"
+            ;;
+  -3) add_kernel "--three"
             ;;
   -c|--clean) clean_kernel
             ;;
   -h|*) scriptName=`basename $0`
-      echo help:
-      echo    usage: $scriptName [options]
-      echo    -a, --add     create a virtual environment and jupyter kernel for this project
-      echo    -c, --clean   remove jupyter kernels and virtual environments
-      echo    -h            this help
+      echo 'help:'
+      echo '   usage: $scriptName [-2|-3|-c|-h]'
+      echo '   -2, --two     create a Python 2 virtual environment and jupyter kernel for this project'
+      echo '   -3, --three   create a Python 3 virtual environment and jupyter kernel for this project'
+      echo '   -c, --clean   remove jupyter kernels and virtual environments'
+      echo '   -h            this help'
       ;;
 esac
