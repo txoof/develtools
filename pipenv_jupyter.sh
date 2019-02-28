@@ -65,9 +65,10 @@ case "$1" in
             ;;
   -c|--clean) clean_kernel
             ;;
-  -h|*) scriptName=`basename $0`
-      echo 'help:'
-      echo '   usage: $scriptName [-2|-3|-c|-h]'
+  -h|*) 
+      scriptName=`basename $0`
+      echo help:
+      echo     usage: $scriptName "[-2|-3|-c|-h]"
       echo '   -2, --two     create a Python 2 virtual environment and jupyter kernel for this project'
       echo '   -3, --three   create a Python 3 virtual environment and jupyter kernel for this project'
       echo '   -c, --clean   remove jupyter kernels and virtual environments'
