@@ -4,7 +4,16 @@
 
 TEMPLATE=`mktemp`
 
-echo -e '#!/usr/bin/env ipython\n{% extends "python.tpl"%}' > $TEMPLATE
+# create the template and remove any Jupyter Notebook magic commands
+# see: https://github.com/ipython/ipython/issues/3707
+cat <<EOT >> $TEMPLATE
+#!/usr/bin/env ipython
+{% extends "python.tpl"%}
+## Comments out magic statement
+{% block codecell %}
+{{  super().replace('get_ipython','#get_ipython') if "get_ipython" in super() else super() }}
+{% endblock codecell %}
+EOT
 
 #if [[ "$VIRTUAL_ENV" != "" ]]
 #then
