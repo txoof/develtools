@@ -24,8 +24,8 @@ add_kernel(){
   pipenv "${pyVersion}"
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
-  #pipenv run python -m ipykernel install --user --name="${projectName}"
-  $python -m ipykernel install --user --name="${projectName}"
+  pipenv run python -m ipykernel install --user --name="${projectName}"
+  #$python -m ipykernel install --user --name="${projectName}"
   echo "ipython/jupyter kernelspec is installed for project $projectName"
   echo "you must now launch jupyter notebook and choose the kernel: $projectName"
   read -p "Launch jupyter notebook now? [N/y]" -n 1 -r
