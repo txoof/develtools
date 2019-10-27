@@ -10,11 +10,22 @@
 #https://stackoverflow.com/questions/47295871/is-there-a-way-to-use-pipenv-with-jupyter-notebook
 add_kernel(){
   pyVersion=$1
+  python=`which $2`
+  if [[ -x $python ]]
+  then
+    echo "using $python to install setup base environment and install kernelspec"
+  else
+    echo "could not find an executable for $2; exiting"
+    exit 0
+  fi
+
   echo "PYTHON VERSION: $pyVersion"
-  pipenv "${pyVersion}" install ipykernel
+  #pipenv "${pyVersion}" install ipykernel
+  pipenv "${pyVersion}"
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
-  pipenv run python -m ipykernel install --user --name="${projectName}"
+  #pipenv run python -m ipykernel install --user --name="${projectName}"
+  $python -m ipykernel install --user --name="${projectName}"
   echo "ipython/jupyter kernelspec is installed for project $projectName"
   echo "you must now launch jupyter notebook and choose the kernel: $projectName"
   read -p "Launch jupyter notebook now? [N/y]" -n 1 -r
@@ -59,14 +70,15 @@ else
 fi
 
 case "$1" in
-  -2) add_kernel "--two"
+  -2) add_kernel "--two" "python2"
             ;;
-  -3) add_kernel "--three"
+  -3) add_kernel "--three" "python3"
             ;;
   -c|--clean) clean_kernel
             ;;
   -h|*) 
       scriptName=`basename $0`
+      echo creates a virtual environment and adds a ipython/jupyter kernelspec
       echo help:
       echo     usage: $scriptName "[-2|-3|-c|-h]"
       echo '   -2, --two     create a Python 2 virtual environment and jupyter kernel for this project'
