@@ -1,4 +1,4 @@
 #!/bin/bash
 myHost=$HOSTNAME.local
 myPort=8888
-/usr/bin/jupyter-notebook --ip=$myHost --port=$myPort --no-browser
+jupyter-notebook --ip=$myHost --port=$myPort --no-browser
