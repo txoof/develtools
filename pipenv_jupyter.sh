@@ -20,12 +20,10 @@ add_kernel(){
   fi
 
   echo "PYTHON VERSION: $pyVersion"
-  #pipenv "${pyVersion}" install ipykernel
-  pipenv "${pyVersion}"
+  pipenv "${pyVersion}" install ipykernel
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
   pipenv run python -m ipykernel install --user --name="${projectName}"
-  #$python -m ipykernel install --user --name="${projectName}"
   if [ $? -eq 0 ]; 
   then
     echo "ipython/jupyter kernelspec is installed for project $projectName"
