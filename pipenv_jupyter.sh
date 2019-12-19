@@ -87,9 +87,9 @@ case "$1" in
       echo creates a virtual environment and adds a ipython/jupyter kernelspec
       echo help:
       echo     usage: $scriptName "[-2|-3|-c|-h]"
-      echo '   -2, --two     create a Python 2 virtual environment and jupyter kernel for this project'
-      echo '   -3, --three   create a Python 3 virtual environment and jupyter kernel for this project'
-      echo '   -c, --clean   remove jupyter kernels and virtual environments'
-      echo '   -h            this help'
+      echo '   -2,       create a Python 2 virtual environment and jupyter kernel for this project'
+      echo '   -3,       create a Python 3 virtual environment and jupyter kernel for this project'
+      echo '   -c,       remove jupyter kernels and this virutal environment'
+      echo '   -h        this help'
       ;;
 esac
