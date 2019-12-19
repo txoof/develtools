@@ -7,7 +7,7 @@ TEMPLATE=`mktemp`
 # create the template and remove any Jupyter Notebook magic commands
 # see: https://github.com/ipython/ipython/issues/3707
 cat <<EOT >> $TEMPLATE
-#!/usr/bin/env ipython
+#!/usr/bin/env python
 {% extends "python.tpl"%}
 ## Comments out magic statement
 {% block codecell %}
