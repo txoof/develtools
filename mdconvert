@@ -2,18 +2,18 @@
 
 # convert jupyter notebooks into executable python and adds hashbang
 
-TEMPLATE=`mktemp`
+#TEMPLATE=`mktemp`
 
 # create the template and remove any Jupyter Notebook magic commands
 # see: https://github.com/ipython/ipython/issues/3707
-cat <<EOT >> $TEMPLATE
+#cat <<EOT >> $TEMPLATE
 #!/usr/bin/env python
-{% extends "python.tpl"%}
+#{% extends "python.tpl"%}
 ## Comments out magic statement
-{% block codecell %}
-{{  super().replace('get_ipython','#get_ipython') if "get_ipython" in super() else super() }}
-{% endblock codecell %}
-EOT
+#{% block codecell %}
+#{{  super().replace('get_ipython','#get_ipython') if "get_ipython" in super() else super() }}
+#{% endblock codecell %}
+#EOT
 
 #if [[ "$VIRTUAL_ENV" != "" ]]
 #then
@@ -23,7 +23,7 @@ EOT
     extension="${filename##*.}"
     filename="${filename%.*}"
 
-    jupyter nbconvert --to markdown $1 --stdout --template=$TEMPLATE > $filename.md
+    jupyter nbconvert --to markdown $1 --stdout > $filename.md
 
   else
     echo "converts ipython notebooks directly to executable python .py scripts"
