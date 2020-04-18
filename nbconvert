@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 # convert jupyter notebooks into executable python and adds hashbang
 
@@ -15,23 +15,27 @@ cat <<EOT >> $TEMPLATE
 {% endblock codecell %}
 EOT
 
-#if [[ "$VIRTUAL_ENV" != "" ]]
-#then
-  if [[ $1 != "" ]];
+echo $0, $1, $2
+
+# check for a supplied file
+if [[ $1 != "" ]];
+then
+  if [[ $2 != "" ]];
   then
-    filename=$(basename -- $1)
-    extension="${filename##*.}"
-    filename="${filename%.*}"
-
-    jupyter nbconvert --to python $1 --stdout --template=$TEMPLATE > $filename.py
-
+    outpath=$2
   else
-    echo "converts ipython notebooks directly to executable python .py scripts"
-    echo "error: no .ipynb specified"
-    echo "usage: $ nbconvert my_notebook.ipynb"
+    outpath='./'
   fi
-#else
-#  echo "this script must be run with the python virtual environment with jupyter avialable"
-#  echo "$ source ~/Virtualenvs/python2/bin/activate"
-#  exit
-#fi
+
+  filename=$(basename -- $1)
+  extension="${filename##*.}"
+  filename="${filename%.*}"
+
+  jupyter nbconvert --to python $1 --stdout --template=$TEMPLATE > $outpath/$filename.py
+
+else
+  echo "converts ipython notebooks directly to executable python .py scripts"
+  echo "error: no .ipynb specified"
+  echo "$0 [NOTEBOOK File] [optional: output path]"
+  echo "usage: $ nbconvert my_notebook.ipynb "
+fi
