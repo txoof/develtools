@@ -5,7 +5,16 @@ Development tools for Python in Jupyter Notebook
 nbconvert creates .py files from Jupyter .ipynb files; it adds the appropriate hashbang lines and strips out any cell magic commands.
 
 ### Usage:
+Command Line:
+
 `$ nbconvert ./myNotebook.py`
+
+From within a Jupyter Notebook:
+
+```
+%alias nbconvert nbconvert ./this_notebook_file_name.ipynb
+%nbconvert
+```
 
 ### Requirements
 - Jupyter Notebook:
