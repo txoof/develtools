@@ -8,19 +8,24 @@
 
 # Thanks to Luis Meraz: https://stackoverflow.com/users/8017204/luis-meraz
 #https://stackoverflow.com/questions/47295871/is-there-a-way-to-use-pipenv-with-jupyter-notebook
+
+
+
 add_kernel(){
-  pyVersion=$1
-  python=`which $2`
-  if [[ -x $python ]]
-  then
-    echo "using $python to install setup base environment and install kernelspec"
-  else
-    echo "could not find an executable for $2; exiting"
-    exit 0
-  fi
+  # pipenv does not play nice with pyenv and somtimes chooses the wrong
+  # python version -- this will force it to use the 'global' python
+  python=$1
+  pyVersion=`$1 -V | tr '[:upper:]' '[:lower:]'` 
+#  if [[ -x $python ]]
+#  then
+#    echo "using $python to install setup base environment and install kernelspec"
+#  else
+#    echo "could not find an executable for $1; exiting"
+#    exit 0
+#  fi
 
   echo "PYTHON VERSION: $pyVersion"
-  pipenv "${pyVersion}" install ipykernel
+  pipenv --$pyVersion install ipykernel
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
   pipenv run python -m ipykernel install --user --name="${projectName}"
@@ -76,9 +81,9 @@ else
 fi
 
 case "$1" in
-  -2) add_kernel "--two" "python2"
+  -2) add_kernel "python2"
             ;;
-  -3) add_kernel "--three" "python3"
+  -3) add_kernel "python3"
             ;;
   -c|--clean) clean_kernel
             ;;
