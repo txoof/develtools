@@ -1,4 +1,5 @@
 #!/bin/bash
-myHost=$HOSTNAME.local
-myPort=8888
-jupyter-notebook --ip=$myHost --port=$myPort --no-browser
+myHost=$(hostname -I | cut -d " " -f 1)
+#myHost=$(/bin/hostname)
+#myPort=8888
+jupyter-notebook --ip=$myHost --no-browser
