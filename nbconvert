@@ -2,16 +2,12 @@
 
 # convert jupyter notebooks into executable python and adds hashbang
 
-TEMPLATE=`mktemp`
+NBCONVERT_VERSION=$(jupyter-notebook -V | cut -d '.' -f 1)
 
-# create the template and remove any Jupyter Notebook magic commands
-# see: https://github.com/ipython/ipython/issues/3707
+if [ $NBCONVERT_VERSION -le 6 ]; then
 
-## Comments out magic statement
-##{% block codecell %}
-##{{  super().replace('get_ipython','#get_ipython') if "get_ipython" in super() else super() }}
-##{% endblock codecell %}
-
+  TEMPLATE=$(mktemp)
+  echo "Preparing template: $TEMPLATE for V5 of nbconvert"
 
 cat <<EOT >> $TEMPLATE
 {% extends "python.tpl"%}
@@ -35,6 +31,23 @@ cat <<EOT >> $TEMPLATE
 {{'' if "get_ipython" in super() else super() }}
 {% endblock codecell%}
 EOT
+else:
+
+  TEMPLATE_FILE=$HOME/bin/develtools/nbconvert_templates/python_clean
+  DEST=$HOME/.local/share/jupyter/nbconvert/templates/python/python_clean
+  TEMPLATE=python_clean
+
+  echo "using $TEMPLATE_FILE for V6+ of nbconvert"
+
+  # create the template and remove any Jupyter Notebook magic commands
+  # see: https://github.com/ipython/ipython/issues/3707
+
+  if [ ! -L ${TEMPLATE_FILE} ] && [ ! -e ${TEMPlATE_FILE} ]; then
+    ln -s ${TEMPLATE_FILE} ${DEST}
+  fi
+fi
+
+
 
 
 echo converting $1 to ${1:r}.py
