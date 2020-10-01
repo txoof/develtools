@@ -42,6 +42,9 @@ optional arguments:
 - Jupyter Notebook:
 `pip install jupyter`
 
+## nbconvert_templates
+Custom templates for nbconvert. Try `nbconvert.py -h` to find the custom template directory (this can be a symlink?)
+
 ## pipenv_jupyter
 pipenv_jupyter.sh creates a pipenv virtual environment that will play nice with Jupyter in the current working directory.
 

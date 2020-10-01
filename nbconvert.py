@@ -15,6 +15,24 @@ import shlex, subprocess
 
 
 
+
+
+def install_templates(template_path, user_path):
+    user_path = Path(user_path).expanduser().absolute()
+    for i in user_path.glob('*'):
+        if i.is_dir():
+            symlink_path = Path(template_path/i.name)
+            try:
+                symlink_path.symlink_to(i)
+                print(f'added template {i}')
+            except FileExistsError:
+                print(f'skipping "{i.name}": a template with this name already exists')
+
+
+
+
+
+
 def list_templates(template_path):
     print(f'\navailable user-defined templates in {template_path}:')
     for i in template_path.glob('*'):
@@ -49,15 +67,18 @@ def main():
                                     epilog=help_epilog,
                                     formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument('input_file', help='notebook file to convert -- required')
+    parser.add_argument('-f', '--input_file', help='notebook file to convert', default=None)
     parser.add_argument('-t', '--template', help=f'choose from a custom template stored in {template_path}', 
                         default=None)
     parser.add_argument('-o', '--output_dir', default=None)
-#     parser.add_argument('-l', '--list', action='store_true', 
-#                         help='list the available user-defined templates', 
-#                         default=False)
+    parser.add_argument('-l', '--list', action='store_true', 
+                        help='list the available user-defined templates and exit', 
+                        default=False)
     parser.add_argument('--to', default='python',
                         help="convert notebook to format [python*, html, latex, pdf, webpdf, slides, mardown, ascidoc, rst, script, notebook] *default")
+    parser.add_argument('-i', '--install_templates', metavar='/path/to/custom_templates',
+                        help=f'symlink templates from directory into {template_path} and exit', 
+                        default=None)
     
     args, unknown_args = parser.parse_known_args()
     
@@ -66,7 +87,22 @@ def main():
         parser.print_help()
         return 1
     
-    input_file = Path(args.input_file).expanduser().absolute()
+        
+    if args.list:
+        list_template(template_path)
+        return 0
+    
+    if args.install_templates:
+        install_templates(template_path, Path(args.install_templates))
+        return 0
+
+    if args.input_file:
+        input_file = Path(args.input_file).expanduser().absolute()
+    else:
+        parser.print_help()
+        return 0
+    
+    
     if not input_file.exists():
         print(f'{input_file} not found')
         return 1
@@ -83,7 +119,7 @@ def main():
         
     if template:
         if not template.exists():
-            print(f'template "{args.template}"" does not exist')
+            print(f'template "{args.template}" does not exist')
             print(f'try adding the template "{args.template}" to {template_path}')
             list_templates(template_path)
 
