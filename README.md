@@ -7,13 +7,32 @@ nbconvert creates .py files from Jupyter .ipynb files; it adds the appropriate h
 ### Usage:
 Command Line:
 
-`$ nbconvert ./myNotebook.py`
-
-From within a Jupyter Notebook:
-
 ```
-%alias nbconvert nbconvert ./this_notebook_file_name.ipynb
-%nbconvert
+usage: nbconvert.py [-h] [-t TEMPLATE] [-o OUTPUT_DIR] [--to TO] input_file
+
+convert jupyter notebooks using custom tempaltes
+
+positional arguments:
+  input_file            notebook file to convert -- required
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TEMPLATE, --template TEMPLATE
+                        choose from a custom template stored in
+                        /Users/aaronciuffo/Library/Jupyter/nbconvert/templates
+  -o OUTPUT_DIR, --output_dir OUTPUT_DIR
+  --to TO               convert notebook to format [python*, html, latex, pdf, webpdf, slides,
+                        mardown, ascidoc, rst, script, notebook] *default
+
+    EXAMPLES:
+    Basic conversion of notebook to python using a custom template
+        $ nbconvert.py --template python_clean foo.ipynb
+
+    Convert notebook to markdown
+        $ nbconvert.py --to markdown bar.ipynb
+
+    Convert notebook to python using a custom template and alternate output directory
+        $ nbconvert.py --template python_clean --output_dir ./spam/ham monty.ipynb
 ```
 
 ### Requirements
