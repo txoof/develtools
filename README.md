@@ -1,8 +1,11 @@
 # develtools
 Development tools for Python in Jupyter Notebook
 
-## nbconvert
-nbconvert creates .py files from Jupyter .ipynb files; it adds the appropriate hashbang lines and strips out any cell magic commands.
+## nbconvert.py
+nbconvert.py converts notebook files using custom templates and provides hints for adding templates
+
+**IMPORTANT**
+Templates are avilable in the `nbconvert_templates` directory
 
 ### Usage:
 Command Line:
