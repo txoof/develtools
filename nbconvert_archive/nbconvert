@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+
+# convert jupyter notebooks into executable python and adds hashbang
+
+echo converting $1 to ${1:r}.py
+echo "********** #!/usr/bin/env python3 **********"
+
+# check for a supplied file
+if [[ $1 != "" ]];
+then
+  if [[ $2 != "" ]];
+  then
+    outpath=$2
+  else
+    outpath='./'
+  fi
+
+  filename=$(basename -- $1)
+  extension="${filename##*.}"
+  filename="${filename%.*}"
+
+  jupyter nbconvert --to python $1 --stdout --template python_clean > $outpath/$filename.py
+
+else
+  echo "converts ipython notebooks directly to executable python .py scripts"
+  echo "error: no .ipynb specified"
+  echo "$0 [NOTEBOOK File] [optional: output path]"
+  echo "usage: $ nbconvert my_notebook.ipynb "
+fi
