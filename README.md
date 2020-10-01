@@ -1,42 +1,12 @@
 # develtools
 Development tools for Python in Jupyter Notebook
 
-## nbconvert.py
-nbconvert.py converts notebook files using custom templates and provides hints for adding templates
+## nbconvert
+This script simply survives as a reminder to update notebook magic cells.
+This was formerly a shortcut for converting notebooks now replaced with notebook magic:
+`!jupyter-nbconvert --to python --template python_clean`
 
-**IMPORTANT**
-Templates are avilable in the `nbconvert_templates` directory
-
-### Usage:
-Command Line:
-
-```
-usage: nbconvert.py [-h] [-t TEMPLATE] [-o OUTPUT_DIR] [--to TO] input_file
-
-convert jupyter notebooks using custom tempaltes
-
-positional arguments:
-  input_file            notebook file to convert -- required
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -t TEMPLATE, --template TEMPLATE
-                        choose from a custom template stored in
-                        /Users/aaronciuffo/Library/Jupyter/nbconvert/templates
-  -o OUTPUT_DIR, --output_dir OUTPUT_DIR
-  --to TO               convert notebook to format [python*, html, latex, pdf, webpdf, slides,
-                        mardown, ascidoc, rst, script, notebook] *default
-
-    EXAMPLES:
-    Basic conversion of notebook to python using a custom template
-        $ nbconvert.py --template python_clean foo.ipynb
-
-    Convert notebook to markdown
-        $ nbconvert.py --to markdown bar.ipynb
-
-    Convert notebook to python using a custom template and alternate output directory
-        $ nbconvert.py --template python_clean --output_dir ./spam/ham monty.ipynb
-```
+Update notebook magic cells with the above magic.
 
 ### Requirements
 - Jupyter Notebook:

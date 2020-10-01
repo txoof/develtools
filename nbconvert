@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "update the notebook magic to:"
+echo "!jupyter-nbconvert --to python --template python_clean"
+echo "templates are stored in ~/.jupyter/templates"
