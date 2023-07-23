@@ -16,7 +16,7 @@ add_kernel(){
   # python version -- this will force it to use the 'global' python
   python=$1
 
-  pipenv install ipykernel --skip-lock
+  pipenv install ipykernel
   venvDir=`pipenv --venv`
   projectName=`basename $venvDir`
   pipenv run python -m ipykernel install --user --name="${projectName}"
