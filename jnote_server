@@ -1,5 +1,9 @@
 #!/bin/bash
 myHost=$(hostname -I | cut -d " " -f 1)
-#myHost=$(/bin/hostname)
-#myPort=8888
-jupyter-notebook --ip=$myHost --no-browser
+
+if command -v jupyter-lab &> /dev/null
+then
+    jupyter-lab --ip=$myHost --no-browser
+else
+    jupyter-notebook --ip=$myHost --no-browser
+fi
